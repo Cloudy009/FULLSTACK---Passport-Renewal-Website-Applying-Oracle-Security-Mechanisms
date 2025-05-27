@@ -25,12 +25,15 @@ This website is developed to support online passport renewal while applying robu
 - GS: monitors all processing statuses
 
 ## 🛡️ Implemented Security Mechanisms
-Oracle Feature          Practical Application in System
-Trigger	                Enforces request limits, status checks, logging
-Synonym	                Hides real schema when accessing data tables
-RBAC	                Clear role-based permissions to prevent unauthorized access
-Column Masking	        Masks sensitive columns depending on user role
-Audit Log               (Trigger)	Records history of request status changes
+
+| Oracle Feature     | Practical Application in System                               |
+|--------------------|---------------------------------------------------------------|
+| Trigger            | Enforces request limits, status checks, logging              |
+| Synonym            | Hides real schema when accessing data tables                 |
+| RBAC               | Clear role-based permissions to prevent unauthorized access  |
+| Column Masking     | Masks sensitive columns depending on user role               |
+| Audit Log (Trigger)| Records history of request status changes                     |
+
 
 ## 🖼️ Interface & Demo
 - Citizen: submits renewal requests
