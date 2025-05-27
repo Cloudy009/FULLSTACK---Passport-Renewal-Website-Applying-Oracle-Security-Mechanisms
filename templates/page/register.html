@@ -1,0 +1,187 @@
+{% extends "partion/main_base.html" %}
+{% block content %} 
+  {% load static %}
+    <style>
+      .home-box >.icon_home
+      {
+        width: auto;
+      }
+    </style>
+    <link href="https://unpkg.com/@webpixels/css@1.2.6/dist/index.css" rel="stylesheet">
+
+    <!-- Hiển thị thông báo nếu có -->
+    {% if messages %}
+      {% for message in messages %}
+          <div class="alert {% if 'error' in message.tags %}alert-danger{% else %}alert-success{% endif %} alert-dismissible fade show" style="z-index: 100; position:fixed; width: 100%" role="alert">
+              <p>{{ message }}</p>
+              <button type="button" class="btn-close close" data-bs-dismiss="alert" aria-label="Close">&times;</button>
+          </div>
+      {% endfor %}
+    {% endif %}
+      <!-- banner section start -->
+      <div class="banner_section layout_padding">
+          <div class="container">
+              <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+              
+              <div class="carousel-inner">
+                  <div class="carousel-item active">
+                      <div class="row">
+                          <div class="col-sm-12">
+                          <h1 class="banner_taital">GIA HẠN HỘ CHIẾU</h1>
+                          <p class="banner_text">Hoàn thành mẫu bên dưới để hoàn tất thủ tục đăng ký</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="passport_renewal_section">
+        <h4 class="passport_renewal_title">Đăng Ký Gia Hạn Hộ Chiếu</h4>
+    
+        <!-- Hiển thị các lỗi tổng quát của form nếu có -->
+        {% if messages %}
+            <div class="alert alert-danger alert-dismissible fade show" style="z-index: 10; position:fixed; width: 100%;" role="alert">
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+      
+        <form class="row g-4 needs-validation" novalidate id="passportForm" method="POST" action="{% url 'register_passport' %}">
+            {% csrf_token %}
+            <div class="col-md-5">
+                <label for="full_name" class="form-label">Họ và Tên</label>
+                <input type="text" class="form-control" id="full_name" placeholder="Họ và Tên" name="full_name" required value="{{ form.full_name.value }}">
+                <div class="invalid-feedback">
+                    {% for error in form.full_name.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-5">
+                <label for="phone_number" class="form-label">Điện thoại</label>
+                <input type="text" class="form-control" id="phone_number" placeholder="Điện thoại" name="phone_number" required value="{{ form.phone_number.value }}">
+                <div class="invalid-feedback">
+                    {% for error in form.phone_number.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-5">
+                <label for="cccd" class="form-label">CCCD</label>
+                <input type="text" class="form-control" id="cccd" placeholder="CCCD" name="cccd" required value="{{ form.cccd.value }}">
+                <div class="invalid-feedback">
+                    {% for error in form.cccd.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-5">
+                <label for="address" class="form-label">Địa chỉ thường trú</label>
+                <input type="text" class="form-control" id="address" placeholder="Địa chỉ thường trú" name="address" required value="{{ form.address.value }}">
+                <div class="invalid-feedback">
+                    {% for error in form.address.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-5">
+                <label for="email" class="form-label">Email liên hệ</label>
+                <input type="email" class="form-control" id="email" placeholder="Email liên hệ" name="email" required value="{{ form.email.value }}">
+                <div class="invalid-feedback">
+                    {% for error in form.email.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-5">
+                <label for="gender" class="form-label">Phái</label>
+                <select class="form-select" id="gender" name="gender" required>
+                    <option value="" disabled {% if not form.gender.value %}selected{% endif %}>Chọn Phái</option>
+                    <option value="Male" {% if form.gender.value == 'Male' %}selected{% endif %}>Nam</option>
+                    <option value="Female" {% if form.gender.value == 'Female' %}selected{% endif %}>Nữ</option>
+                    <option value="Other" {% if form.gender.value == 'Other' %}selected{% endif %}>Khác</option>
+                </select>
+                <div class="invalid-feedback">
+                    {% for error in form.gender.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-5">
+                <label for="current_passport_number" class="form-label">Mã số hộ chiếu</label>
+                <input type="text" class="form-control" id="current_passport_number" placeholder="Mã số hộ chiếu" name="current_passport_number" required value="{{ form.current_passport_number.value }}">
+                <div class="invalid-feedback">
+                    {% for error in form.current_passport_number.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="agreeCheck" required>
+                    <label class="form-check-label" for="agreeCheck">
+                        Đồng ý với các điều khoản và điều kiện
+                    </label>
+                    <div class="invalid-feedback">
+                        Bạn phải đồng ý với điều khoản trước khi gửi.
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 d-flex justify-content-center">
+                <button class="btn btn-primary w-25" type="submit">Gửi form</button>
+            </div>
+        </form>
+    </div>
+    
+    
+      <!-- banner section end -->
+
+      <!-- about section start -->
+      <div class="about_section layout_padding">
+         <div class="container">
+            <div class="row">
+               <div class="col-sm-8">
+                  <h2 class="about_taital">about Chrity</h2>
+                  <p class="about_text">many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If youmany variations of passages of Lorem Ipsum 
+                     available, but the majority have suffered 
+                     alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you many
+                     variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, byinjected humour, or randomised words which don't look even slightly believable. If you
+                  </p>
+                  <div class="readmore_bt"><a href="#">Read more</a></div>
+               </div>
+               <div class="col-sm-4">
+                  <div class="about_img"><img src="images/about-img.png"></div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- about section end -->
+     
+      <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="confirmationModalLabel">Xác nhận gửi form</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Bạn có chắc chắn muốn gửi form này không?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+              <button type="button" class="btn btn-primary" id="confirmSubmit">Xác nhận</button>
+            </div>
+          </div>
+        </div>
+      </div> 
+      
+      
+{% endblock  %}

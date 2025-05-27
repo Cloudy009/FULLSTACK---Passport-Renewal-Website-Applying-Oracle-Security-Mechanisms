@@ -1,0 +1,117 @@
+<div id="History" class="main_contain" style="display:block;">
+    <div class="h-screen flex-grow-1 overflow-y-lg-auto">
+      <!-- Header -->
+      <header class="bg-surface-primary border-bottom pt-6">
+        <div class="container-fluid">
+          <div class="mb-npx">
+            <div class="row align-items-center">
+              <div class="col-sm-6 col-12 mb-4 mb-sm-0">
+                <!-- Title -->
+                <h1 class="h2 mb-0 ls-tight mb-4">HISTORY</h1>
+              </div>
+              <!-- Actions -->
+             
+            </div>
+            <ul class="nav nav-tabs mt-4 overflow-x border-0">
+              
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+              <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      <!-- Main -->
+        <main class="py-6 bg-surface-secondary">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-12 mx-auto ">
+                        <div class="row">
+                            <!-- Phần form 1 -->
+                            <div class="col-xl-6 mx-auto">
+                                <form method="get" action="{% url 'history' %}" class="d-flex">
+                                    <!-- Dropdown chọn loại tìm kiếm -->
+                                    <select name="search_type" class="form-control w-25">
+                                        <option value="USERNAME" {% if search_type == 'USERNAME' %}selected{% endif %}>User</option>
+                                        <option value="ACTION" {% if search_type == 'ACTION' %}selected{% endif %}>Action</option>
+                                        <option value="OBJ_NAME" {% if search_type == 'OBJ_NAME' %}selected{% endif %}>Object Name</option>
+                                    </select>
+                                
+                                    <!-- Input tìm kiếm -->
+                                    <input type="text" name="search_query" class="form-control" placeholder="Tìm kiếm..." value="{{ search_query }}">
+                                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                                </form>
+                            </div>
+                        
+                            <!-- Phần form 2 -->
+                            <div class="col-xl-6 mx-auto">
+                                <form method="get" class="d-flex">
+                                    <!-- Dropdown chọn loại tìm kiếm -->
+                                    <select name="search_type" class="form-control w-25">
+                                        <option value="USERNAME" {% if search_type == 'USERNAME' %}selected{% endif %}>User</option>
+                                        <option value="ACTION" {% if search_type == 'ACTION' %}selected{% endif %}>Action</option>
+                                        <option value="OBJ_NAME" {% if search_type == 'OBJ_NAME' %}selected{% endif %}>Object Name</option>
+                                    </select>
+                                
+                                    <!-- Input tìm kiếm -->
+                                    <input type="text" name="search_query" class="form-control" placeholder="Tìm kiếm..." value="{{ search_query }}">
+                                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <div class="card shadow border-0 mt-2 mb-10">
+                            <div class="card-body">
+                                <table class="table table-hover table-responsive">
+                                    <thead>
+                                        <tr>
+                                            {% for col in column_names %}
+                                            <th>{{ col }}</th>
+                                            {% endfor %}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for row in page_obj %}
+                                        <tr>
+                                            {% for col in row %}
+                                            <td>{{ col }}</td>
+                                            {% endfor %}
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="{{ column_names|length }}">Không có dữ liệu.</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-body">
+                                <div class="pagination d-flex justify-content-center">
+                                    <div>
+                                        <span>Trang {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+                                        <div>
+                                            {% if page_obj.has_previous %}
+                                            <a href="?page=1">Đầu</a>
+                                            <a href="?page={{ page_obj.previous_page_number }}">Trước</a>
+                                            {% endif %}
+                                    
+                                            {% if page_obj.has_next %}
+                                            <a href="?page={{ page_obj.next_page_number }}">Tiếp</a>
+                                            <a href="?page={{ page_obj.paginator.num_pages }}">Cuối</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

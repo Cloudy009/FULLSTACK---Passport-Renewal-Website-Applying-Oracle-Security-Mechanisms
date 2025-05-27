@@ -1,0 +1,41 @@
+{% extends "partion/main_base.html" %}
+{% block content %} 
+   {% load static %}
+      <!-- about section start -->
+   
+      <div class="container mt-4">
+        <h2 class="text-center mb-4">Danh Sách Thông Báo</h2>
+
+        {% if display_data %}
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Passport ID</th>
+                    <th>Status</th>
+                    <th>Value</th>
+                    <th>Ngày Tạo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in display_data %}
+                <tr>
+                    <td>{{ item.passport_id }}</td>
+                    <td>{{ item.status }}</td>
+                    <td>{{ item.value }}</td>
+                    <td>{{ item.created_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="alert alert-info" role="alert">
+            Không có thông báo nào.
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Thêm Bootstrap JS và Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+         
+      <!-- about section end -->
+{% endblock  %}    

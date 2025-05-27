@@ -1,0 +1,371 @@
+<div id="Passports" class="main_contain" style="display:block;">
+    <div class="h-screen flex-grow-1 overflow-y-lg-auto">
+      <!-- Header -->
+      <header class="bg-surface-primary border-bottom pt-6">
+        <div class="container-fluid">
+          <div class="mb-npx">
+            <div class="row align-items-center">
+              <div class="col-sm-6 col-12 mb-4 mb-sm-0">
+                <!-- Title -->
+                <h1 class="h2 mb-0 ls-tight mb-4">Passports Settings</h1>
+              </div>
+              <!-- Actions -->
+             
+            </div>
+            <ul class="nav nav-tabs mt-4 overflow-x border-0">
+              
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+              <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      <!-- Main -->
+        <main class="py-6 bg-surface-secondary">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-12 mx-auto ">
+                        
+                                <form method="get" action="{% url 'staff_dashboard' %}" class="d-flex">
+                                    <!-- Dropdown chọn loại tìm kiếm -->
+                                    <select name="search_type" class="form-control">
+                                        <option value="passport_id" {% if search_type == 'passport_id' %}selected{% endif %}>Mã phiếu</option>
+                                        <option value="cccd" {% if search_type == 'cccd' %}selected{% endif %}>CCCD</option>
+                                        <option value="current_passport_number" {% if search_type == 'current_passport_number' %}selected{% endif %}>Mã hộ chiếu</option>
+                                        <option value="full_name" {% if search_type == 'full_name' %}selected{% endif %}>Họ Tên</option>
+                                    </select>
+                                
+                                    <!-- Input tìm kiếm -->
+                                    <input type="text" name="search_query" class="form-control" placeholder="Tìm kiếm..." value="{{ search_query }}">
+                                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                                </form>
+                           
+                        
+                        <div class="card shadow border-0 mt-2 mb-10">
+                            <div class="card-body">
+                                <table class="table table-hover table-responsive">
+                                    <thead>
+                                        <tr class="fw-bold fs-1 text-primary">
+                                            <th>
+                                                <a href="?search_query={{ search_query }}&search_type={{ search_type }}&sort_by=passport_id&sort_order={% if sort_by == 'passport_id' and sort_order == 'asc' %}desc{% else %}asc{% endif %}">
+                                                    ID
+                                                    {% if sort_by == 'passport_id' %}
+                                                        {% if sort_order == 'asc' %}↑{% else %}↓{% endif %}
+                                                    {% endif %}
+                                                </a>
+                                            </th>
+                                            <th>
+                                                <a href="?search_query={{ search_query }}&search_type={{ search_type }}&sort_by=full_name&sort_order={% if sort_by == 'full_name' and sort_order == 'asc' %}desc{% else %}asc{% endif %}">
+                                                    NAME
+                                                    {% if sort_by == 'full_name' %}
+                                                        {% if sort_order == 'asc' %}↑{% else %}↓{% endif %}
+                                                    {% endif %}
+                                                </a>
+                                            </th>
+                                            <th>
+                                                <a href="?search_query={{ search_query }}&search_type={{ search_type }}&sort_by=cccd&sort_order={% if sort_by == 'cccd' and sort_order == 'asc' %}desc{% else %}asc{% endif %}">
+                                                    CCCD
+                                                    {% if sort_by == 'cccd' %}
+                                                        {% if sort_order == 'asc' %}↑{% else %}↓{% endif %}
+                                                    {% endif %}
+                                                </a>
+                                            </th>
+                                            <th>
+                                                <a href="?search_query={{ search_query }}&search_type={{ search_type }}&sort_by=current_passport_number&sort_order={% if sort_by == 'current_passport_number' and sort_order == 'asc' %}desc{% else %}asc{% endif %}">
+                                                    PASSPORT_NUMBER
+                                                    {% if sort_by == 'current_passport_number' %}
+                                                        {% if sort_order == 'asc' %}↑{% else %}↓{% endif %}
+                                                    {% else %}
+                                                        <i class="fa-solid fa-ban fa-sort" style="color:Tomato"></i>
+                                                    {% endif %}
+                                                </a>
+                                            </th>
+                                            <th>VERIFIED_STATUS</th>
+                                            <th>APPROVED_STATUS</th>
+                                            <th>USER_ID</th>
+                                            <th>CRETED_AT</th>
+                                            <th>MORE ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for employee in page_obj %}
+                                    
+                                            <td>{{ employee.0 }}</td>  <!-- PASSPORT_ID -->
+                                            <td>{{ employee.1 }}</td>  <!-- FULL_NAME -->
+                                            <td>{{ employee.4 }}</td>  <!-- CCCD -->
+                                            <td>{{ employee.7 }}</td>
+                                        
+                                            <td>
+                                                
+
+                                                <form method="post" action="{% url 'update_verified_status' %}" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="passport_id" value="{{ employee.0 }}">
+                                                    <input type="hidden" name="status_verified" value="1">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            {% if employee.8 == 0 %}
+                                                                Thất bại
+                                                            {% elif employee.8 == 1 %}
+                                                                Thành công
+                                                            {% else %}
+                                                                Chưa xác thực
+                                                            {% endif %}
+                                                        </button>
+                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                            <li class="bg-danger text-white">
+                                                                <button type="submit" name="status_verified" value="0" class="dropdown-item" {% if employee.8 == 0 %}disabled{% endif %}>
+                                                                    Thất bại 
+                                                                </button>
+                                                            </li>
+                                                            <li class="bg-success text-white">
+                                                                <button type="submit" name="status_verified" value="1" class="dropdown-item" {% if employee.8 == 1 %}disabled{% endif %}>
+                                                                    Xác thực
+                                                                </button>
+                                                            </li>
+                                                            <li class="bg-light text-dark">
+                                                                <button type="submit" name="status_verified" value="NULL" class="dropdown-item" {% if employee.8 == NULL %}disabled{% endif %}>
+                                                                    Hủy bỏ
+                                                                </button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="post" action="{% url 'update_approved_status' %}" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="passport_id" value="{{ employee.0 }}">
+                                                    <input type="hidden" name="status_approved" value="1">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            {% if employee.9 == 0 %}
+                                                                Thất bại
+                                                            {% elif employee.9 == 1 %}
+                                                                Thành công
+                                                            {% else %}
+                                                                Chưa xác duyệt
+                                                            {% endif %}
+                                                        </button>
+                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                            <li class="bg-danger text-white">
+                                                                <button type="submit" name="status_approved" value="0" class="dropdown-item" {% if employee.9 == 0 %}disabled{% endif %}>
+                                                                    Thất bại
+                                                                </button>
+                                                            </li>
+                                                            <li class="bg-success text-white">
+                                                                <button type="submit" name="status_approved" value="1" class="dropdown-item" {% if employee.9 == 1 %}disabled{% endif %}>
+                                                                    Thành công
+                                                                </button>
+                                                            </li>
+                                                            <li class="bg-light text-dark">
+                                                                <button type="submit" name="status_approved" value="NULL" class="dropdown-item" {% if employee.9 == NULL %}disabled{% endif %}>
+                                                                    Hủy bỏ
+                                                                </button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </form>
+                                            <!-- {% if role_privileges.APPROVED_STATUS == "UPDATE" %}
+                                                <form method="post" action="{% url 'update_status' %}" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="passport_id" value="{{ employee.0 }}">
+                                                    <button type="submit" name="status" value="approved" class="btn btn-{% if employee.10 == 0 %}success{% else %}danger{% endif %} btn-sm">
+                                                        {% if employee.10 == 0 %}Xác nhận{% else %}Hủy xác nhận{% endif %}
+                                                    </button>
+                                                </form>
+                                            {% else %}
+                                                {% if employee.10 == 1 %}
+                                                    <span class="badge bg-success">Đã Xác nhận</span>
+                                                {% else %}
+                                                    <span class="badge bg-danger">Chưa xác nhận</span>
+                                                {% endif %}
+                                            {% endif %} -->
+                                            </td>
+                                            <td>{{ employee.12 }}</td>
+
+                                            <td>{{ employee.10 }}</td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="fa-solid fa-bars"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-end w-auto" aria-labelledby="dropdownMenuButton">
+                                                        <li class="dropdown-item w-100">
+                                                            <a class="d-flex align-items-center" href="#">
+                                                                <form method="post" action="{% url 'delete_employee' %}" class="d-inline">
+                                                                    {% csrf_token %}
+                                                                    <input type="hidden" name="passport_id" value="{{ employee.0 }}" >
+                                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                                        <i class="fa-solid fa-trash-can me-2"></i></button>
+                                                                </form>
+                                                                <!-- {% if "DELETE" in role_privileges.values %}
+                                                                    <form method="post" action="{% url 'delete_employee' %}" class="d-inline">
+                                                                        {% csrf_token %}
+                                                                        <input type="hidden" name="passport_id" value="{{ employee.0 }}" >
+                                                                        <button type="submit" class="btn btn-danger btn-sm">
+                                                                            <i class="fa-solid fa-trash-can me-2"></i></button>
+                                                                    </form>
+                                                                {% else %}
+                                                                    <span class="fa-stack fa-xl">
+                                                                        <i class="fa-solid fa-trash-can fa-stack-1x"></i>
+                                                                        <i class="fa-solid fa-ban fa-stack-1x" style="color:Tomato">
+                                                                        </i>
+                                                                    </span>NO PERMISSION
+                                                                {% endif %} -->
+                                                            </a>
+                                                        </li>
+                                                        <li class="dropdown-item w-100">
+                                                            <a class="btn d-flex align-items-center" href="{% url 'update_passport' passport_id=employee.0 %}">
+                                                                <i class="fa-solid fa-screwdriver-wrench me-2"></i> Sửa
+                                                            </a>
+                                                        </li>
+                                                        <li class="dropdown-item w-100">  
+                                                            <p type="button" class="btn btn-primary btn-sm d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#passportDetailModal"
+                                                                data-passport-id="{{ employee.0 }}"
+                                                                data-full-name="{{ employee.1 }}"
+                                                                data-address="{{ employee.2 }}"
+                                                                data-gender="{{ employee.3 }}"
+                                                                data-cccd="{{ employee.4 }}"
+                                                                data-phone="{{ employee.5 }}"
+                                                                data-email="{{ employee.6 }}"
+                                                                data-passport-number="{{ employee.7 }}"
+                                                                data-verified-status="{{ employee.8 }}"
+                                                                data-approved-status="{{ employee.9 }}"
+                                                                data-created-at="{{ employee.10 }}"
+                                                                data-updated-at="{{ employee.11 }}"
+                                                            >
+                                                                <i class="fa-solid fa-eye me-2"></i>Detail
+                                                            </p>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                            
+                                            
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-body">
+                                <div class="pagination d-flex justify-content-center">
+                                    <span class="step-links" >
+                                        {% if page_obj.has_previous %}
+                                            <a href="?search_query={{ search_query }}&search_type={{ search_type }}&sort_by={{ sort_by }}&sort_order={{ sort_order }}&page=1">&laquo; First</a>
+                                            <a href="?search_query={{ search_query }}&search_type={{ search_type }}&sort_by={{ sort_by }}&sort_order={{ sort_order }}&page={{ page_obj.previous_page_number }}">Previous</a>
+                                        {% else %}
+                                            <span class="disabled">&laquo; First</span>
+                                            <span class="disabled">Previous</span>
+                                        {% endif %}
+                                        <span class="current">
+                                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                        </span>
+                                        {% if page_obj.has_next %}
+                                            <a href="?search_query={{ search_query }}&search_type={{ search_type }}&sort_by={{ sort_by }}&sort_order={{ sort_order }}&page={{ page_obj.next_page_number }}">Next</a>
+                                            <a href="?search_query={{ search_query }}&search_type={{ search_type }}&sort_by={{ sort_by }}&sort_order={{ sort_order }}&page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                                        {% else %}
+                                            <span class="disabled">&laquo; Next</span>
+                                            <span class="disabled">Last &raquo;</span>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+
+    <!-- Modal View Detail -->
+    <div class="modal fade" id="passportDetailModal" tabindex="-1" aria-labelledby="passportDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="passportDetailModalLabel">Passport Detail</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>PASSPORT_ID:</strong> <span id="passport_id"></span></p>
+                            <p><strong>FULL_NAME:</strong> <span id="full_name"></span></p>
+                            <p><strong>ADDRESS:</strong> <span id="address"></span></p>
+                            <p><strong>CCCD:</strong> <span id="cccd"></span></p>
+                            <p><strong>GENDER:</strong> <span id="gender"></span></p>
+
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>PHONE_NUMBER:</strong> <span id="phone_number"></span></p>
+                            <p><strong>EMAIL:</strong> <span id="email"></span></p>
+                            <p><strong>CURRENT_PASSPORT_NUMBER:</strong> <span id="passport_number"></span></p>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <p><strong>VERIFIED_STATUS:</strong> <span id="verified_status"></span></p>
+                            <p><strong>APPROVED_STATUS:</strong> <span id="approved_status"></span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>CREATED_AT:</strong> <span id="created_at"></span></p>
+                            <p><strong>UPDATED_AT:</strong> <span id="updated_at"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+        var passportDetailModal = document.getElementById('passportDetailModal')
+        passportDetailModal.addEventListener('show.bs.modal', function (event) {
+            // Lấy thông tin từ nút click
+            var button = event.relatedTarget;
+            var passportId = button.getAttribute('data-passport-id');
+            var fullName = button.getAttribute('data-full-name');
+            var address = button.getAttribute('data-address');
+            var cccd = button.getAttribute('data-cccd');
+            var phone = button.getAttribute('data-phone');
+            var email = button.getAttribute('data-email');
+            var phone = button.getAttribute('data-phone');
+            var gender = button.getAttribute('data-gender');
+
+
+            var passportNumber = button.getAttribute('data-passport-number');
+            var pendingStatus = button.getAttribute('data-pending-status');
+            var verifiedStatus = button.getAttribute('data-verified-status');
+            var approvedStatus = button.getAttribute('data-approved-status');
+            var rejectedStatus = button.getAttribute('data-rejected-status');
+            var createdAt = button.getAttribute('data-created-at');
+            var updatedAt = button.getAttribute('data-updated-at');
+
+            // Điền dữ liệu vào modal
+            document.getElementById('passport_id').textContent = passportId;
+            document.getElementById('full_name').textContent = fullName;
+            document.getElementById('address').textContent = address;
+            document.getElementById('cccd').textContent = cccd;
+            document.getElementById('phone_number').textContent = phone;
+            document.getElementById('email').textContent = email;
+            document.getElementById('passport_number').textContent = passportNumber;
+            document.getElementById('pending_status').textContent = pendingStatus;
+            document.getElementById('verified_status').textContent = verifiedStatus;
+            document.getElementById('approved_status').textContent = approvedStatus;
+            document.getElementById('rejected_status').textContent = rejectedStatus;
+            document.getElementById('created_at').textContent = createdAt;
+            document.getElementById('updated_at').textContent = updatedAt;
+            document.getElementById('gender').textContent = gender;
+
+        });
+</script>

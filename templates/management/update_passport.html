@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Passport</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4 text-center">Cập nhật thông tin Passport</h2>
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'update_passport' passport.0 %}" class="container">
+            {% csrf_token %}
+            <div class="row">
+                <!-- Cột 1 -->
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="full_name">Họ và tên:</label>
+                        <input type="text" class="form-control" id="full_name" name="full_name" value="{{ passport.1 }}" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="address">Địa chỉ:</label>
+                        <input type="text" class="form-control" id="address" name="address" value="{{ passport.2 }}" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="gender">Giới tính:</label>
+                        <select class="form-control" id="gender" name="gender">
+                            <option value="Male" {% if passport.3 == 'Male' %}selected{% endif %}>Nam</option>
+                            <option value="Female" {% if passport.3 == 'Female' %}selected{% endif %}>Nữ</option>
+                            <option value="Other" {% if passport.3 == 'Other' %}selected{% endif %}>Khác</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="cccd">CCCD:</label>
+                        <input type="text" class="form-control" id="cccd" name="cccd" value="{{ passport.4 }}" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="phone_number">Số điện thoại:</label>
+                        <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ passport.5 }}" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ passport.6 }}" required>
+                    </div>
+                </div>
+
+                <!-- Cột 2 -->
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="current_passport_number">Số passport hiện tại:</label>
+                        <input type="text" class="form-control" id="current_passport_number" name="current_passport_number" value="{{ passport.7 }}" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="verified_status">Trạng thái xác nhận:</label>
+                        <select class="form-control" id="verified_status" name="verified_status">
+                            <option value="1" {% if passport.8 == 1 %}selected{% endif %}>Đã xác nhận</option>
+                            <option value="0" {% if passport.8 == 0 %}selected{% endif %}>Chưa xác nhận</option>
+                            <option value="NULL" {% if passport.8 is none %}selected{% endif %}>Không xác định</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="approved_status">Trạng thái phê duyệt:</label>
+                        <select class="form-control" id="approved_status" name="approved_status">
+                            <option value="1" {% if passport.9 == 1 %}selected{% endif %}>Đã phê duyệt</option>
+                            <option value="0" {% if passport.9 == 0 %}selected{% endif %}>Chưa phê duyệt</option>
+                            <option value="NULL" {% if passport.9 is none %}selected{% endif %}>Không xác định</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="detail">Chi tiết:</label>
+                        <input type="text" class="form-control" id="detail" name="detail" value="{{ passport.13 }}">
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="user_viewed">Trạng thái đã xem:</label>
+                        <select class="form-control" id="user_viewed" name="user_viewed">
+                            <option value="1" {% if passport.14 == 1 %}selected{% endif %}>Đã xem</option>
+                            <option value="0" {% if passport.14 == 0 %}selected{% endif %}>Chưa xem</option>
+                            <option value="NULL" {% if passport.14 == NULL %}selected{% endif %}>Không xác định</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col text-center">
+                    <button type="submit" class="btn btn-primary">Cập nhật thông tin</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="row mt-3 mb-5">
+            <div class="col text-center">
+                <a href="{% url 'staff_dashboard' %}" class="btn btn-secondary">Quay lại Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

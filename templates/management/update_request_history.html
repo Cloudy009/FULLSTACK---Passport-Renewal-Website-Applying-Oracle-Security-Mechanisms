@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Request History</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Cập nhật thông tin yêu cầu</h2>
+        
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST" action="">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="status" class="form-label">Loại trạng thái</label>
+                <input type="text" class="form-control" id="status" name="status" 
+                       value="{{ history.status }}" required>
+                
+            </div>
+
+            <div class="mb-3">
+                <label for="value" class="form-label">Giá trị</label>
+                <input type="text" class="form-control" id="value" name="value" 
+                       value="{{ history.value }}" required>
+                
+            </div>
+            <div class="mb-3">
+                <label for="detail" class="form-label">Chi tiết yêu cầu</label>
+                <textarea class="form-control" id="detail" name="detail" rows="3">{{ history.detail }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="user_viewed">Trạng thái người xem</label>
+                <select class="form-control" id="user_viewed" name="user_viewed">
+                    <option value="1" {% if history.user_viewed == 1 %}selected{% endif %}>Đã Xem</option>
+                    <option value="0" {% if history.user_viewed == 0 %}selected{% endif %}>Chưa Xem</option>
+                    <option value="NULL" {% if history.user_viewed is none %}selected{% endif %}>Không xác định</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Cập nhật</button>
+            <a href="{% url 'staff_dashboard' %}" class="btn btn-secondary">Quay lại</a>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

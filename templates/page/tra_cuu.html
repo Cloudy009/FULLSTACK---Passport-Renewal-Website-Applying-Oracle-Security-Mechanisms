@@ -1,0 +1,77 @@
+{% extends "partion/main_base.html" %}
+{% block content %}
+   {% load static %}
+   <link href="https://unpkg.com/@webpixels/css@1.2.6/dist/index.css" rel="stylesheet">
+
+
+   <!-- Tải các file CSS của Bootstrap -->
+
+    <div class="container mb-10">
+        <div class="panel">
+            <div class="panel-heading">
+                <div class="row d-flex">
+                    <div class="col">
+                        <h4 class="title">Data <span>List</span></h4>
+                    </div>
+                    <div class="col">
+                        <div class="">
+                            <form method="get" action="{% url 'tra_cuu' %}" id="search-form" class="d-flex justify-content-end align-items-center gap-2">
+                                <div class="form-group">
+                                    <select name="search_type" id="search_type" class="form-control p-2">
+                                        <option value="SELECT" {% if search_type == 'SELECT' %}selected{% endif %}>CHỌN</option>
+                                        <option value="ALL" {% if search_type == 'ALL' %}selected{% endif %}>ALL</option>
+                                        <option value="Passport ID" {% if search_type == 'Passport ID' %}selected{% endif %}>Passport ID</option>
+                                        <option value="CCCD" {% if search_type == 'CCCD' %}selected{% endif %}>CCCD</option>
+                                        <option value="Current Passport Number" {% if search_type == 'Current Passport Number' %}selected{% endif %}>Current Passport Number</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" name="search_value" value="{{ search_value }}" class="form-control p-2" placeholder="Enter value" />
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary rounded"><i class="fa fa-sync-alt"></i></button>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    
+            <div class="panel-body table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Passport ID</th>
+                        <th>Full Name</th>
+                        <th>Address</th>
+                        <th>Verified Status</th>
+                        <th>Approved Status</th>
+                        <th>New</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in passport_requests %}
+                        <tr>
+                            <td>{{ request.passport_id }}</td>
+                            <td>{{ request.full_name }}</td>
+                            <td>{{ request.address }}</td>
+                            <td>{{ request.verified_status }}</td>
+                            <td>{{ request.approved_status }}</td>
+                            <td>{{ request.new }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+
+   <!-- Tải các file JS của Bootstrap -->
+   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock %}

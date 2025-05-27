@@ -1,0 +1,53 @@
+⚙️ Setup Instructions
+1. Create a virtual environment:
+Open Terminal or PowerShell, navigate to your project folder, and run:
+python -m venv venv
+
+2. Activate the virtual environment:
++ Trên Windows:     .\venv\Scripts\activate
++ Trên macOS/Linux: source venv/bin/activate
+
+3. Install required libraries:
+pip install -r requirements.txt
+
+
+4. Configure Oracle Instant Client:
+
+Download and install Oracle Instant Client (matching ORACLE_CLIENT_PATH in your environment variables)
+
+Ensure Oracle DB service (e.g. ORCLPDB) is running and accessible
+
+Set your Oracle credentials (ORACLE_DB_USER, ORACLE_DB_PASSWORD) in your .env or environment variables
+
+5. Configure Django environment variables:
+Set environment variables for Oracle DB, OAuth (Google/GitHub), email SMTP, etc. as shown below:
+SECRET_KEY=your-django-secret-key
+DEBUG=True
+
+ORACLE_CLIENT_PATH=path-to-instantclient
+ORACLE_DB_NAME=ORCLPDB
+ORACLE_DB_USER=your-oracle-user
+ORACLE_DB_PASSWORD=your-oracle-password
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=your-google-client-id
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=your-google-client-secret
+SOCIAL_AUTH_GOOGLE_OAUTH2_REDIRECT_URI=http://127.0.0.1:8000/social-auth/complete/google-oauth2/
+
+SOCIAL_AUTH_GITHUB_KEY=your-github-client-id
+SOCIAL_AUTH_GITHUB_SECRET=your-github-client-secret
+SOCIAL_AUTH_GITHUB_REDIRECT_URI=http://127.0.0.1:8000/social-auth/complete/github/
+
+EMAIL_HOST_USER=your-email@gmail.com
+EMAIL_HOST_PASSWORD=your-email-password
+DEFAULT_FROM_EMAIL=your-email@gmail.com
+DEFAULT_TO_EMAIL=your-email@gmail.com
+
+6. Run Django migrations:
+python manage.py makemigrations
+python manage.py migrate
+
+7. Create an admin user:
+python manage.py createsuperuser
+
+8. Run the development server:
+python manage.py runserver

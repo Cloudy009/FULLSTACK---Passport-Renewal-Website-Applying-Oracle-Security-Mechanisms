@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Passport</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Cập nhật thông tin Passport</h2>
+        
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST" action="">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="passport_type" class="form-label">Loại hộ chiếu</label>
+                <input type="text" class="form-control" id="passport_type" name="passport_type" 
+                       value="{{ passport.passport_type }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="current_passport_code" class="form-label">Mã hộ chiếu hiện tại</label>
+                <input type="text" class="form-control" id="current_passport_code" name="current_passport_code" 
+                       value="{{ passport.current_passport_code }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="expiry_date" class="form-label">Ngày hết hạn</label>
+                <input type="date" class="form-control" id="expiry_date" name="expiry_date" 
+                       value="{{ passport.expiry_date|date:'Y-m-d' }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="status" class="form-label">Trạng thái</label>
+                <select class="form-select" id="status" name="status" required>
+                    <option value="1" {% if passport.status == 1 %}selected{% endif %}>Hoạt động</option>
+                    <option value="0" {% if passport.status == 0 %}selected{% endif %}>Không hoạt động</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="status_detail" class="form-label">Chi tiết trạng thái</label>
+                <textarea class="form-control" id="status_detail" name="status_detail" rows="3">{{ passport.status_detail }}</textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Cập nhật</button>
+            <a href="{% url 'staff_dashboard' %}" class="btn btn-secondary">Quay lại</a>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<div id="Resident" class="main_contain" style="display:block;">
+    <div class="h-screen flex-grow-1 overflow-y-lg-auto">
+      <!-- Header -->
+      <header class="bg-surface-primary border-bottom pt-6">
+        <div class="container-fluid">
+          <div class="mb-npx">
+            <div class="row align-items-center">
+              <div class="col-sm-6 col-12 mb-4 mb-sm-0">
+                <!-- Title -->
+                <h1 class="h2 mb-0 ls-tight mb-4">RESIDENT</h1>
+              </div>
+              <!-- Actions -->
+             
+            </div>
+            <ul class="nav nav-tabs mt-4 overflow-x border-0">
+              
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+              <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      <!-- Main -->
+        <main class="py-6 bg-surface-secondary">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-12 mx-auto ">
+                        
+                                <form method="get" action="{% url 'resident' %}" class="d-flex ">
+                                    <select name="search_field" class="form-control">
+                                        <option value="SELECT" {% if search_type == 'SELECT' %}selected{% endif %}>Chọn loại</option>
+                                        <option value="resident_id" {% if search_type == 'resident_id' %}selected{% endif %}>Mã cư dân</option>
+                                        <option value="full_name" {% if search_type == 'full_name' %}selected{% endif %}>Họ tên</option>
+                                        <option value="cccd" {% if search_type == 'cccd' %}selected{% endif %}>Số CCCD</option>
+                                    </select>
+                                    <input type="text" name="search_query" class="form-control" value="{{ search_query }}" placeholder="Search">
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </form>
+                          
+                        
+                        <div class="card shadow border-0 mt-2 mb-10">
+                            <div class="card-body">
+                                <table class="table table-hover table-responsive">
+                                    <thead>
+
+                                        <tr class="fw-bold fs-1 text-primary">
+                                            <th>Mã cư dân</th>
+                                            <th>Họ tên</th>
+                                            <th>Số CCCD</th>
+                                            <th>Giới tính</th>
+                                            <th>Trạng thái</th>
+                                            <th>Ngày tạo</th>
+                                            <th>Cập Nhật</th>
+                                            <th>SỐ ĐIỆN THOẠI</th>
+                                            <th>ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for row in page_obj %}
+                                        <tr>
+                                            <td>{{ row.0 }}</td> <!-- resident_id -->
+                                            <td>{{ row.1 }}</td> <!-- cccd -->
+                                            <td>{{ row.4 }}</td> <!-- full_name -->
+                                            <td>{{ row.3 }}</td> <!-- created_at -->
+                                            <td>{{ row.9 }}</td> <!-- address -->
+                                            <td>{{ row.7 }}</td> <!-- phone -->
+                                            <td>{{ row.8 }}</td> <!-- phone -->
+                                            <td>{{ row.5 }}</td> <!-- phone -->
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="fa-solid fa-bars"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-end w-auto" aria-labelledby="dropdownMenuButton">
+                                                        <li class="dropdown-item w-100">
+                                                            <a class="d-flex align-items-center" href="#">
+                                                                <form method="post" action="{% url 'delete_resident' %}" class="d-inline">
+                                                                    {% csrf_token %}
+                                                                    <input type="hidden" name="resident_id" value="{{ row.0 }}" >
+                                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                                        <i class="fa-solid fa-trash-can me-2"></i></button>
+                                                                </form>
+                                                              
+                                                            </a>
+                                                        </li>
+                                                        <li class="dropdown-item w-100">
+                                                            <a class="btn d-flex align-items-center" href="{% url 'update_resident' resident_id=row.0 %}">
+                                                                <i class="fa-solid fa-screwdriver-wrench me-2"></i> Sửa
+                                                            </a>
+                                                        </li>
+                                                        <li class="dropdown-item w-100">  
+                                                            <p type="button" class="btn btn-primary btn-sm d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#passportDetailModal"
+                                                                >Detail
+                                                            </p>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="5">Không có dữ liệu.</td>
+                                        </tr>
+                           
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-body">
+                                <div class="pagination d-flex justify-content-center">
+                                        {% if page_obj.has_previous %}
+                                            <a href="?page=1&search_query={{ search_query }}&search_field={{ search_type }}">First</a>
+                                            <a href="?page={{ page_obj.previous_page_number }}&search_query={{ search_query }}&search_field={{ search_type }}">Previous</a>
+                                        {% endif %}
+                                        <span class="current">
+                                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                        </span>
+                                        {% if page_obj.has_next %}
+                                            <a href="?page={{ page_obj.next_page_number }}&search_query={{ search_query }}&search_field={{ search_type }}">Next</a>
+                                            <a href="?page={{ page_obj.paginator.num_pages }}&search_query={{ search_query }}&search_field={{ search_type }}">Last</a>
+                                        {% endif %}
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+
+    
