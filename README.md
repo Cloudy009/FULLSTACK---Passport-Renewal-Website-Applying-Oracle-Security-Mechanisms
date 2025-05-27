@@ -84,12 +84,18 @@ python -m venv venv
 ```
 
 2. Activate the virtual environment:
-+ Trên Windows:     .\venv\Scripts\activate
-+ Trên macOS/Linux: source venv/bin/activate
-
++ Trên Windows:  
+```bash    
+.\venv\Scripts\activate
+```
++ Trên macOS/Linux: 
+```bash 
+source venv/bin/activate
+```
 3. Install required libraries:
+```bash 
 pip install -r requirements.txt
-
+```
 
 4. Configure Oracle Instant Client:
 - Download and install Oracle Instant Client (matching ORACLE_CLIENT_PATH in your environment variables)
@@ -120,12 +126,20 @@ Set environment variables for Oracle DB, OAuth (Google/GitHub), email SMTP, etc.
 
 
 6. Run Django migrations:
+```bash 
 python manage.py makemigrations
+```
+```bash 
 python manage.py migrate
+```
 
 7. Create an admin user:
+```bash 
 python manage.py createsuperuser
+```
 
 8. Run the development server:
+```bash 
 python manage.py runserver
+```
 "# FULLSTACK---Passport-Renewal-Website-Applying-Oracle-Security-Mechanisms" 
