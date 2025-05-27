@@ -96,26 +96,26 @@ pip install -r requirements.txt
 
 5. Configure Django environment variables:
 Set environment variables for Oracle DB, OAuth (Google/GitHub), email SMTP, etc. as shown below:
-SECRET_KEY=your-django-secret-key
-DEBUG=True
 
-ORACLE_CLIENT_PATH=path-to-instantclient
-ORACLE_DB_NAME=ORCLPDB
-ORACLE_DB_USER=your-oracle-user
-ORACLE_DB_PASSWORD=your-oracle-password
+| Variable Name                            | Description                     | Example / Notes                                           |
+|------------------------------------------|---------------------------------|-----------------------------------------------------------|
+| `SECRET_KEY`                             | Django secret key               | your-django-secret-key                                    |
+| `DEBUG`                                  | Debug mode flag                 | True                                                      |
+| `ORACLE_CLIENT_PATH`                     | Path to Oracle Instant Client   | path-to-instantclient                                     |
+| `ORACLE_DB_NAME`                         | Oracle database service name    | ORCLPDB                                                   |
+| `ORACLE_DB_USER`                         | Oracle database username        | your-oracle-user                                          |
+| `ORACLE_DB_PASSWORD`                     | Oracle database password        | your-oracle-password                                      |
+| `SOCIAL_AUTH_GOOGLE_OAUTH2_KEY`          | Google OAuth2 client ID         | your-google-client-id                                     |
+| `SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET`       | Google OAuth2 client secret     | your-google-client-secret                                 |
+| `SOCIAL_AUTH_GOOGLE_OAUTH2_REDIRECT_URI` | Google OAuth2 redirect URI      | http://127.0.0.1:8000/social-auth/complete/google-oauth2/ |
+| `SOCIAL_AUTH_GITHUB_KEY`                 | GitHub OAuth client ID          | your-github-client-id                                     |
+| `SOCIAL_AUTH_GITHUB_SECRET`              | GitHub OAuth client secret      | your-github-client-secret                                 |
+| `SOCIAL_AUTH_GITHUB_REDIRECT_URI`        | GitHub OAuth redirect URI       | http://127.0.0.1:8000/social-auth/complete/github/        |
+| `EMAIL_HOST_USER`                        | Email address for SMTP login    | your-email@gmail.com                                      |
+| `EMAIL_HOST_PASSWORD`                    | Email SMTP password             | your-email-password                                       |
+| `DEFAULT_FROM_EMAIL`                     | Default sender email address    | your-email@gmail.com                                      |
+| `DEFAULT_TO_EMAIL`                       | Default recipient email address | your-email@gmail.com                                      |
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=your-google-client-id
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=your-google-client-secret
-SOCIAL_AUTH_GOOGLE_OAUTH2_REDIRECT_URI=http://127.0.0.1:8000/social-auth/complete/google-oauth2/
-
-SOCIAL_AUTH_GITHUB_KEY=your-github-client-id
-SOCIAL_AUTH_GITHUB_SECRET=your-github-client-secret
-SOCIAL_AUTH_GITHUB_REDIRECT_URI=http://127.0.0.1:8000/social-auth/complete/github/
-
-EMAIL_HOST_USER=your-email@gmail.com
-EMAIL_HOST_PASSWORD=your-email-password
-DEFAULT_FROM_EMAIL=your-email@gmail.com
-DEFAULT_TO_EMAIL=your-email@gmail.com
 
 6. Run Django migrations:
 python manage.py makemigrations
