@@ -79,7 +79,9 @@ Gmail SMTP: Sends status updates and user notifications
 ## ⚙️ Setup Instructions
 1. Create a virtual environment:
 Open Terminal or PowerShell, navigate to your project folder, and run:
+```bash 
 python -m venv venv
+```
 
 2. Activate the virtual environment:
 + Trên Windows:     .\venv\Scripts\activate
